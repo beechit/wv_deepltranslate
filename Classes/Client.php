@@ -99,14 +99,20 @@ final class Client
 
         $formatEntries = '';
         foreach ($entries as $entry) {
-            $source = $entry['source'];
-            $target = $entry['target'];
+            $source =  trim(mb_convert_case($entry['source'], MB_CASE_LOWER, 'UTF-8'));
+            $target =  trim(mb_convert_case($entry['target'], MB_CASE_LOWER, 'UTF-8'));
+            if (empty($source) || empty($target)) {
+                continue;
+            }
             $formatEntries .= sprintf(self::GLOSSARY_ENTRY_FORMAT, $source, $target);
         }
 
         foreach ($entries as $entry) {
-            $source = ucwords($entry['source']);
-            $target = ucwords($entry['target']);
+            $source = trim(mb_convert_case($entry['source'], MB_CASE_TITLE, 'UTF-8'));
+            $target = trim(mb_convert_case($entry['target'], MB_CASE_TITLE, 'UTF-8'));
+            if (empty($source) || empty($target)) {
+                continue;
+            }
             $formatEntries .= sprintf(self::GLOSSARY_ENTRY_FORMAT, $source, $target);
         }
 
