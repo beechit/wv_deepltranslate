@@ -98,22 +98,30 @@ final class Client
         ];
 
         $formatEntries = '';
+        $processedSources = [];
+
         foreach ($entries as $entry) {
-            $source =  trim(mb_convert_case($entry['source'], MB_CASE_LOWER, 'UTF-8'));
-            $target =  trim(mb_convert_case($entry['target'], MB_CASE_LOWER, 'UTF-8'));
-            if (empty($source) || empty($target)) {
+            $source = trim(mb_convert_case($entry['source'], MB_CASE_LOWER, 'UTF-8'));
+            $target = trim(mb_convert_case($entry['target'], MB_CASE_LOWER, 'UTF-8'));
+
+            if (empty($source) || empty($target) || isset($processedSources[$source])) {
                 continue;
             }
+
             $formatEntries .= sprintf(self::GLOSSARY_ENTRY_FORMAT, $source, $target);
+            $processedSources[$source] = true; // Mark this source as processed
         }
 
         foreach ($entries as $entry) {
             $source = trim(mb_convert_case($entry['source'], MB_CASE_TITLE, 'UTF-8'));
             $target = trim(mb_convert_case($entry['target'], MB_CASE_TITLE, 'UTF-8'));
-            if (empty($source) || empty($target)) {
+
+            if (empty($source) || empty($target) || isset($processedSources[$source])) {
                 continue;
             }
+
             $formatEntries .= sprintf(self::GLOSSARY_ENTRY_FORMAT, $source, $target);
+            $processedSources[$source] = true; // Mark this source as processed
         }
 
         $postFields['entries'] = $formatEntries;
