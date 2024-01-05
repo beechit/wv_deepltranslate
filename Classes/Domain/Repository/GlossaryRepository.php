@@ -54,9 +54,15 @@ class GlossaryRepository
         foreach ($localizationLanguageIds as $localizationLanguageId) {
             $localizedEntries = $this->getLocalizedEntries($pageId, $localizationLanguageId);
             $targetLanguageIsoCode = $this->getTargetLanguageIsoCode($site, $localizationLanguageId);
-            $localizationArray[$targetLanguageIsoCode] = $localizedEntries;
-        }
+            if(!isset($localizationArray[$targetLanguageIsoCode])) {
+                $localizationArray[$targetLanguageIsoCode] = [];
+            }
 
+            if(!empty($localizedEntries)) {
+                $localizationArray[$targetLanguageIsoCode] += $localizedEntries;
+            }
+        }
+        
         $availableLanguagePairs = GeneralUtility::makeInstance(DeeplGlossaryService::class)
             ->getPossibleGlossaryLanguageConfig();
 
