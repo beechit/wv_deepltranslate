@@ -80,7 +80,7 @@ define('TYPO3/CMS/Backend/Localization', [
         class: 'btn btn-block btn-default t3js-option',
         'data-helptext': '.t3js-helptext-translate',
       })
-        .html('<br>Translate<br>(Google)')
+        .html('<br>Translate<br>(Google) - Deprecated')
         .prepend(
           $('<input />', {
             type: 'radio',
