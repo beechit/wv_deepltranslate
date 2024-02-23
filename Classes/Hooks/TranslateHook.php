@@ -151,8 +151,10 @@ class TranslateHook
             }
         } //mode google
         elseif ($customMode == 'google') {
+
+
             $response = $this->googleService->translate(
-                $sourceLanguageRecord['language_isocode'],
+                ($sourceLanguageRecord['language_isocode'] === 'auto') ? 'en' : $sourceLanguageRecord['language_isocode'],
                 $targetLanguageRecord['language_isocode'],
                 $content
             );
@@ -161,6 +163,8 @@ class TranslateHook
                 if (HtmlUtility::isHtml($response)) {
                     $content = preg_replace('/\/\s/', '/', $response);
                     $content = preg_replace('/\>\s+/', '>', $content);
+                } else {
+                    $content = $response;
                 }
             }
         }
